@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Suneet Abraham · Senior Analytics Professional</title>
+<meta name="description" content="Senior analytics professional. Pricing, experimentation, causal measurement. Shipped a Shapley price-gap method across 7 Walmart International markets. Drove 37% revenue growth at BENlabs." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07090f;
+    --surface: #0d1119;
+    --surface-2: #121824;
+    --line: #1c2333;
+    --line-strong: #2a3447;
+    --text: #e6ebf5;
+    --muted: #8a95ab;
+    --muted-2: #5d6780;
+    --accent: #64ffda;
+    --accent-dim: rgba(100, 255, 218, 0.15);
+    --warm: #fbbf24;
+    --glow: rgba(100, 255, 218, 0.4);
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Animated gradient orbs in background */
+  .bg-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+    will-change: transform;
+  }
+  .bg-orb.one {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, #64ffda 0%, transparent 70%);
+    top: -200px; left: -200px;
+    animation: float1 20s ease-in-out infinite;
+  }
+  .bg-orb.two {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, #6366f1 0%, transparent 70%);
+    top: 40%; right: -200px;
+    animation: float2 25s ease-in-out infinite;
+    opacity: 0.25;
+  }
+  .bg-orb.three {
+    width: 450px; height: 450px;
+    background: radial-gradient(circle, #fbbf24 0%, transparent 70%);
+    bottom: -100px; left: 30%;
+    animation: float3 30s ease-in-out infinite;
+    opacity: 0.15;
+  }
+  @keyframes float1 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(200px, 100px); }
+  }
+  @keyframes float2 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-150px, -80px); }
+  }
+  @keyframes float3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(100px, -150px) scale(1.1); }
+  }
+
+  /* Grain texture overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: overlay;
+  }
+
+  /* Grid overlay */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(100, 255, 218, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(100, 255, 218, 0.025) 1px, transparent 1px);
+    background-size: 64px 64px;
+    pointer-events: none;
+    z-index: 1;
+    mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+  }
+
+  /* Scroll progress bar */
+  .scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--warm));
+    z-index: 100;
+    width: 0%;
+    transition: width 0.1s ease-out;
+  }
+
+  /* Side nav */
+  nav.side {
+    position: fixed;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  nav.side a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted-2);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    padding: 6px 0;
+    border-left: 2px solid var(--line);
+    transition: all 0.3s;
+    padding-left: 6px;
+  }
+  nav.side a:hover,
+  nav.side a.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+  }
+
+  /* Main wrapper */
+  main {
+    position: relative;
+    z-index: 2;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 96px 40px 120px;
+  }
+
+  /* Top mini-nav */
+  header.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 20px 40px;
+    z-index: 40;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(7, 9, 15, 0.7);
+    border-bottom: 1px solid var(--line);
+  }
+  header.top .logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+  header.top .logo span { color: var(--muted); }
+  header.top .nav-links {
+    display: flex;
+    gap: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  header.top .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  header.top .nav-links a:hover { color: var(--accent); }
+  header.top .nav-links a .num {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  header.top .resume-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  header.top .resume-btn:hover {
+    background: var(--accent-dim);
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 40px;
+  }
+  .hero .hello {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    font-size: 14px;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.2s forwards;
+  }
+  .hero h1 {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.35s forwards;
+  }
+  .hero h2 {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--muted);
+    margin-bottom: 28px;
+    max-width: 720px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.5s forwards;
+  }
+  .hero h2 .highlight {
+    background: linear-gradient(135deg, var(--accent), var(--warm));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .hero .intro {
+    max-width: 600px;
+    font-size: 17px;
+    color: var(--muted);
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.65s forwards;
+  }
+  .hero .cta {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 80px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.8s forwards;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 14px 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid transparent;
+  }
+  .btn.primary {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 600;
+  }
+  .btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px var(--glow);
+  }
+  .btn.ghost {
+    border-color: var(--line-strong);
+    color: var(--text);
+  }
+  .btn.ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Stats strip */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    padding: 40px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.6s 1s forwards;
+  }
+  .stat {
+    padding: 0 24px;
+    border-right: 1px solid var(--line);
+  }
+  .stat:last-child { border-right: none; }
+  .stat .num {
+    font-size: 40px;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 8px;
+    background: linear-gradient(180deg, var(--accent) 0%, #2a9d8f 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .stat .label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* Sections */
+  section.content {
+    margin-top: 140px;
+  }
+  section.content .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  section.content .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    font-size: 18px;
+  }
+  section.content h3 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+  section.content .section-header::after {
+    content: "";
+    display: block;
+    height: 1px;
+    background: linear-gradient(90deg, var(--line) 0%, transparent 100%);
+    width: 100%;
+  }
+
+  /* About */
+  .about-text p {
+    color: var(--muted);
+    font-size: 17px;
+    margin-bottom: 16px;
+    max-width: 680px;
+  }
+  .about-text p strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .about-text p .accent-text {
+    color: var(--accent);
+  }
+
+  /* Experience */
+  .experience .role {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+    transition: all 0.3s;
+    position: relative;
+    padding-left: 0;
+  }
+  .experience .role:last-child { border-bottom: none; }
+  .experience .role:hover {
+    padding-left: 16px;
+  }
+  .experience .role:hover::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 28px; bottom: 28px;
+    width: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+  .experience .role-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .experience .role-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .experience .role-title .company {
+    color: var(--accent);
+  }
+  .experience .role-dates {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .experience .role-loc {
+    font-size: 13px;
+    color: var(--muted-2);
+    margin-bottom: 12px;
+  }
+  .experience .role-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .experience .role-bullets li {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 8px;
+    padding-left: 22px;
+    position: relative;
+  }
+  .experience .role-bullets li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  /* Projects */
+  .projects {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .project {
+    background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .project::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--warm));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .project:hover {
+    transform: translateY(-4px);
+    border-color: var(--line-strong);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+  .project:hover::before { opacity: 1; }
+  .project .project-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+  .project h4 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .project p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+  .project .impact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .project .impact .dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--glow);
+  }
+  .project .impact .label {
+    color: var(--muted-2);
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+  .project .impact .value {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* Skills */
+  .skills-group {
+    margin-bottom: 32px;
+  }
+  .skills-group:last-child { margin-bottom: 0; }
+  .skills-group h5 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 14px;
+  }
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tag {
+    padding: 6px 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--muted);
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .tag:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  /* Contact */
+  .contact-card {
+    background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-card::before {
+    content: "";
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at center, var(--accent-dim) 0%, transparent 40%);
+    pointer-events: none;
+  }
+  .contact-card > * { position: relative; }
+  .contact-card .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
+  }
+  .contact-card h4 {
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  .contact-card p {
+    color: var(--muted);
+    max-width: 500px;
+    margin: 0 auto 32px;
+    font-size: 16px;
+  }
+  .contact-card .email-btn {
+    padding: 16px 32px;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .contact-card .email-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px var(--glow);
+  }
+  .contact-card .socials {
+    margin-top: 24px;
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .contact-card .socials a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-card .socials a:hover { color: var(--accent); }
+
+  footer {
+    text-align: center;
+    padding: 48px 0 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--muted-2);
+  }
+
+  /* Reveal animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s, transform 0.6s;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    nav.side { display: none; }
+    main { padding: 72px 24px 80px; }
+    header.top { padding: 16px 24px; }
+    header.top .nav-links { display: none; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat:nth-child(2) { border-right: none; }
+    .stat:nth-child(3), .stat:nth-child(4) {
+      border-top: 1px solid var(--line);
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+    .stat:nth-child(3) { border-right: 1px solid var(--line); }
+    .contact-card { padding: 32px 24px; }
+    section.content { margin-top: 96px; }
+    section.content h3 { font-size: 24px; }
+  }
+  @media (max-width: 500px) {
+    .stats { grid-template-columns: 1fr; }
+    .stat { border-right: none !important; border-bottom: 1px solid var(--line); padding: 16px 0 !important; margin: 0 !important; }
+    .stat:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-orb one"></div>
+<div class="bg-orb two"></div>
+<div class="bg-orb three"></div>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<header class="top">
+  <div class="logo">Suneet Abraham</div>
+  <nav class="nav-links">
+    <a href="#about"><span class="num">01.</span> About</a>
+    <a href="#work"><span class="num">02.</span> Work</a>
+    <a href="#projects"><span class="num">03.</span> Projects</a>
+    <a href="#skills"><span class="num">04.</span> Skills</a>
+  </nav>
+  <a href="#contact" class="resume-btn">Get in touch</a>
+</header>
+
+<nav class="side">
+  <a href="#about" data-sec="about">About</a>
+  <a href="#work" data-sec="work">Work</a>
+  <a href="#projects" data-sec="projects">Projects</a>
+  <a href="#skills" data-sec="skills">Skills</a>
+  <a href="#contact" data-sec="contact">Contact</a>
+</nav>
+
+<main>
+
+  <section class="hero">
+    <p class="hello">Hi I am</p>
+    <h1>Suneet Abraham.</h1>
+    <h2>I build <span class="highlight">pricing systems</span> and <span class="highlight">measurement frameworks</span> that move revenue.</h2>
+    <p class="intro">
+      Six years in analytics. Currently at Tredence leading pricing, loyalty, and retail media analytics across three Fortune 100 client engagements. Specialist in causal measurement, experimentation design, and applied AI for analytics.
+    </p>
+    <div class="cta">
+      <a href="#projects" class="btn primary">See featured work →</a>
+      <a href="#contact" class="btn ghost">Get in touch</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="num">37%</div>
+        <div class="label">Revenue lift at BENlabs</div>
+      </div>
+      <div class="stat">
+        <div class="num">7M+</div>
+        <div class="label">Publix customers measured</div>
+      </div>
+      <div class="stat">
+        <div class="num">$60M+</div>
+        <div class="label">Ad spend modeled</div>
+      </div>
+      <div class="stat">
+        <div class="num">7</div>
+        <div class="label">Walmart markets shipped</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="content reveal">
+    <div class="section-header">
+      <span class="section-num">01.</span>
+      <h3>About</h3>
+    </div>
+    <div class="about-text">
+      <p>
+        I'm a <strong>senior analytics professional</strong> with six years of experience turning ambiguous business problems into measurable outcomes. I've worked across Fortune 100 retail, high-growth SaaS, and an early-stage CPG, which is a useful range: the same measurement principles scale up and down, and I've operated both as a hands-on builder and as a team lead.
+      </p>
+      <p>
+        My edge is the intersection of <span class="accent-text">pricing strategy</span>, <span class="accent-text">experimentation design</span>, and <span class="accent-text">causal inference</span>. I've shipped a Shapley-value price-gap decomposition across 7 Walmart International markets, rebuilt global pricing at BENlabs around purchasing power parity (37% revenue lift), and measured loyalty program ROI for 7M+ Publix customers using synthetic control.
+      </p>
+      <p>
+        I led a five-person analytics team for two years at Mu Sigma and mentored 50+ new hires on BI standards. Today, I lead analytics delivery across three Fortune 100 client engagements at Tredence, covering pricing, loyalty measurement, and retail media. M.S. in Business Analytics from Purdue, Daniels School of Business.
+      </p>
+    </div>
+  </section>
+
+  <section id="work" class="content reveal experience">
+    <div class="section-header">
+      <span class="section-num">02.</span>
+      <h3>Where I've worked</h3>
+    </div>
+
+    <div class="role">
+      <div class="role-head">
+        <div class="role-title">Associate Manager, CXM Analytics <span class="company">@ Tredence</span></div>
+        <div class="role-dates">Jan 2025 to Present</div>
+      </div>
+      <div class="role-loc">Remote · Fortune 1 retailer engagement</div>
+      <ul class="role-bullets">
+        <li>Built a Shapley-value price-gap decomposition across 7 Walmart International markets (1M+ UPCs); adopted by merchants for CPG supplier negotiations.</li>
+        <li>Measured causal loyalty program ROI for 7M+ Publix customers using synthetic control and propensity score matching.</li>
+        <li>Rebuilt the Ahold Delhaize retail media data model; now measures $60M+ in annual ad spend for CPG clients.</li>
+        <li>Launched a BigQuery-backed AI agent exposing dashboard queries and domain context via natural language.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role-head">
+        <div class="role-title">Senior Data Analyst <span class="company">@ LifeSeasons</span></div>
+        <div class="role-dates">Aug 2024 to Jan 2025</div>
+      </div>
+      <div class="role-loc">Bentonville, AR · Early-stage CPG, reported to CMO</div>
+      <ul class="role-bullets">
+        <li>Consolidated 12 manual KPI reports into a real-time Tableau dashboard; cut weekly executive reporting from 2 days to 2 hours.</li>
+        <li>Led two consultants to build a direct-mail data pipeline covering 1,500 campaigns; first cross-channel attribution view the company had.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role-head">
+        <div class="role-title">Senior Analyst, Marketing Analytics <span class="company">@ BENlabs (TubeBuddy)</span></div>
+        <div class="role-dates">Jun 2023 to Jul 2024</div>
+      </div>
+      <div class="role-loc">Chicago, IL · High-growth SaaS</div>
+      <ul class="role-bullets">
+        <li>Drove 37% revenue growth and 27% subscription growth by rebuilding global pricing across 4 purchasing-power-parity market clusters.</li>
+        <li>Stood up Segment and Amplitude from zero; first-ever visibility into funnel, attribution, and abandonment.</li>
+        <li>Built multi-touch attribution and marketing mix models on a $5M annual media budget.</li>
+        <li>Scraped and ran NLP sentiment analysis on 7K+ Google reviews; surfaced 8 roadmap items that lifted app-store rating from the low 3s to 4.5 within 30 days.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role-head">
+        <div class="role-title">Senior Data Analyst <span class="company">@ Mu Sigma (Mars KIND)</span></div>
+        <div class="role-dates">Jun 2020 to May 2022</div>
+      </div>
+      <div class="role-loc">Bangalore, India · Fortune 500 CPG client</div>
+      <ul class="role-bullets">
+        <li>Led a 5-person analytics team for 2 years; owned data pipelines across 22 global markets, DQM, and 15+ Tableau dashboards for 50+ stakeholders.</li>
+        <li>Automated ETL on Azure Data Factory; reduced workload 86% and lead time 50%.</li>
+        <li>Tableau SME for the business unit; set BI standards and mentored 50+ new hires.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role-head">
+        <div class="role-title">Data Analyst <span class="company">@ Mu Sigma (Walmart)</span></div>
+        <div class="role-dates">Jul 2019 to Jun 2020</div>
+      </div>
+      <div class="role-loc">Bangalore, India · Fortune 500 retail client</div>
+      <ul class="role-bullets">
+        <li>Lifted conversion 9% via A/B tests on website layout and ad placement in Adobe Analytics.</li>
+        <li>Improved holiday campaign performance 13% with predictive targeting segments built on 3 prior seasons of engagement.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="projects" class="content reveal">
+    <div class="section-header">
+      <span class="section-num">03.</span>
+      <h3>Featured projects</h3>
+    </div>
+
+    <div class="projects">
+      <div class="project">
+        <div class="project-tag">Pricing · Causal · Production</div>
+        <h4>Shapley-Value Price-Gap Decomposition</h4>
+        <p>
+          The existing price-gap method was limited: 75% of data fell into "both prices changed" and was uninformative. I built a Shapley distribution that decomposes the gap into four components (Walmart's contribution, the rest of the market's, a mixed contribution from units sold, and assortment), pivotable by department, state, region, and UPC.
+        </p>
+        <p>
+          Merchants use it to see whether Walmart is leading or following market price moves in each segment, understand what drove each move, and identify where to push back with CPG suppliers when the data supports it. Rolled out across 7 Walmart International markets and 1M+ UPCs.
+        </p>
+        <div class="impact">
+          <span class="dot"></span>
+          <span class="label">Impact</span>
+          <span class="value">Live across 7 markets · Segment-level leader vs follower view · Drives CPG negotiations</span>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="project-tag">GenAI · LLM · BigQuery</div>
+        <h4>BigQuery AI Agent for Self-Serve Analytics</h4>
+        <p>
+          Recurring stakeholder requests were clogging the analytics queue. I built a BigQuery-backed AI agent that combines an LLM with the team's dashboard queries and domain knowledge, so stakeholders can ask pricing, inventory, and loyalty questions in natural language instead of routing through an analyst.
+        </p>
+        <div class="impact">
+          <span class="dot"></span>
+          <span class="label">Impact</span>
+          <span class="value">Cut turnaround on recurring requests · Freed the team for higher-value analysis</span>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="project-tag">Pricing · Experimentation</div>
+        <h4>Global Pricing Rebuild with Purchasing Power Parity</h4>
+        <p>
+          Prices hadn't been updated in two years. I researched YouTube pricing benchmarks, purchase volumes, user volumes, and PPP across markets. Clustered countries into four segments and anchored prices on the best-performing country in each cluster. Staged rollout via A/B tests.
+        </p>
+        <div class="impact">
+          <span class="dot"></span>
+          <span class="label">Impact</span>
+          <span class="value">37% revenue lift · 27% subscription growth</span>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="project-tag">Causal · Measurement</div>
+        <h4>Publix Loyalty Program Causal ROI</h4>
+        <p>
+          The loyalty program had no defensible impact estimate. I built a causal measurement pipeline using synthetic control and propensity score matching across 7M+ customers, producing the first statistically defensible ROI the program had. Used to redesign retention strategy and reallocate marketing investment.
+        </p>
+        <div class="impact">
+          <span class="dot"></span>
+          <span class="label">Impact</span>
+          <span class="value">Retention strategy redesigned · First defensible ROI estimate</span>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="project-tag">Infrastructure · NLP · GenAI</div>
+        <h4>Marketing Analytics Stack from Zero at BENlabs</h4>
+        <p>
+          The marketing team had no measurement infrastructure. I stood up Segment and Amplitude across the site, built multi-touch attribution and marketing mix models on a $5M annual media budget, and scraped 7K+ Google reviews that I cleaned with the OpenAI API and ran through NLP sentiment analysis to surface 8 product roadmap items.
+        </p>
+        <div class="impact">
+          <span class="dot"></span>
+          <span class="label">Impact</span>
+          <span class="value">16.3% YoY sales growth · App-store rating low 3s to 4.5 in 30 days</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="content reveal">
+    <div class="section-header">
+      <span class="section-num">04.</span>
+      <h3>Skills & stack</h3>
+    </div>
+
+    <div class="skills-group">
+      <h5>Analytics & Experimentation</h5>
+      <div class="tag-cloud">
+        <span class="tag">Pricing Optimization</span>
+        <span class="tag">A/B &amp; Multivariate Testing</span>
+        <span class="tag">Shapley Decomposition</span>
+        <span class="tag">Incrementality</span>
+        <span class="tag">Funnel &amp; Cohort Analysis</span>
+        <span class="tag">Feature Adoption</span>
+        <span class="tag">Attribution Modeling</span>
+        <span class="tag">Retail Media Measurement</span>
+        <span class="tag">Loyalty Analytics</span>
+        <span class="tag">LTV / CAC / ROAS</span>
+        <span class="tag">MMM</span>
+      </div>
+    </div>
+
+    <div class="skills-group">
+      <h5>Causal Inference</h5>
+      <div class="tag-cloud">
+        <span class="tag">Synthetic Control</span>
+        <span class="tag">Difference-in-Differences</span>
+        <span class="tag">Propensity Score Matching</span>
+        <span class="tag">Regression Discontinuity</span>
+        <span class="tag">Quasi-Experimental Design</span>
+      </div>
+    </div>
+
+    <div class="skills-group">
+      <h5>Tools & Platforms</h5>
+      <div class="tag-cloud">
+        <span class="tag">SQL</span>
+        <span class="tag">Python</span>
+        <span class="tag">pandas</span>
+        <span class="tag">scikit-learn</span>
+        <span class="tag">statsmodels</span>
+        <span class="tag">BigQuery</span>
+        <span class="tag">Tableau</span>
+        <span class="tag">Power BI</span>
+        <span class="tag">Amplitude</span>
+        <span class="tag">Segment</span>
+        <span class="tag">Adobe Analytics</span>
+        <span class="tag">Azure Data Factory</span>
+        <span class="tag">Azure Computer Vision</span>
+        <span class="tag">Databricks</span>
+      </div>
+    </div>
+
+    <div class="skills-group">
+      <h5>Leadership</h5>
+      <div class="tag-cloud">
+        <span class="tag">Team Leadership</span>
+        <span class="tag">Mentoring (50+)</span>
+        <span class="tag">Stakeholder Management</span>
+        <span class="tag">BI Standards</span>
+        <span class="tag">Cross-functional Delivery</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="content reveal">
+    <div class="contact-card">
+      <div class="kicker">let's talk</div>
+      <h4>Have a role in mind?</h4>
+      <p>
+        I'm open to Senior, Lead, Staff, and Manager-level analytics roles. Happy to chat about pricing, experimentation, causal measurement, applied AI for analytics, or any other analytics problem you're wrestling with.
+      </p>
+      <a href="mailto:suneetabraham.in@gmail.com" class="email-btn">Say hello →</a>
+      <div class="socials">
+        <a href="mailto:suneetabraham.in@gmail.com">Email</a>
+        <a href="https://linkedin.com/in/suneet-abraham" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="tel:+14793671947">+1 479 367 1947</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Designed and built by Suneet Abraham · 2026
+  </footer>
+
+</main>
+
+<script>
+  // Scroll progress bar
+  const progress = document.getElementById('scrollProgress');
+  window.addEventListener('scroll', () => {
+    const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    progress.style.width = pct + '%';
+  });
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Side nav active state
+  const sideLinks = document.querySelectorAll('nav.side a');
+  const sections = ['about','work','projects','skills','contact'].map(id => document.getElementById(id));
+  const sideObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        sideLinks.forEach(a => {
+          a.classList.toggle('active', a.dataset.sec === entry.target.id);
+        });
+      }
+    });
+  }, { threshold: 0.35 });
+  sections.forEach(s => s && sideObserver.observe(s));
+
+  // Subtle cursor-based orb movement on larger screens
+  if (window.innerWidth > 900) {
+    const orbs = document.querySelectorAll('.bg-orb');
+    document.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 40;
+      const y = (e.clientY / window.innerHeight - 0.5) * 40;
+      orbs.forEach((orb, i) => {
+        const factor = (i + 1) * 0.5;
+        orb.style.setProperty('--mx', (x * factor) + 'px');
+        orb.style.setProperty('--my', (y * factor) + 'px');
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
