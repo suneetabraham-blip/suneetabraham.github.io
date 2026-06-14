@@ -771,7 +771,8 @@
         <li>Built a Shapley-value price-gap decomposition across 7 Walmart International markets (1M+ UPCs); adopted by merchants for CPG supplier negotiations.</li>
         <li>Measured causal loyalty program ROI for 7M+ Publix customers using synthetic control and propensity score matching.</li>
         <li>Rebuilt the Ahold Delhaize retail media data model; now measures $60M+ in annual ad spend for CPG clients.</li>
-        <li>Launched a BigQuery-backed AI agent exposing dashboard queries and domain context via natural language.</li>
+        <li>Built a Gemini + BigQuery AI agent for pricing analytics that consolidates Q&amp;A across 12 dashboards into one plain-English interface; grounded in team SQL and metric definitions so merchants self-serve instead of waiting on the analytics queue.</li>
+        <li>Built an Excel + VBA dev-vs-production QC tool for dashboard releases: users paste both datasets sharing a first-column key, the macro auto-detects matching schema across the rest, returns match rate, and flags every cell-level divergence. Turned release validation into a self-serve check.</li>
       </ul>
     </div>
 
@@ -851,15 +852,34 @@
       </div>
 
       <div class="project">
-        <div class="project-tag">GenAI · LLM · BigQuery</div>
-        <h4>BigQuery AI Agent for Self-Serve Analytics</h4>
+        <div class="project-tag">GenAI · Gemini · BigQuery · Pricing</div>
+        <h4>Gemini + BigQuery AI Agent for Pricing Analytics</h4>
         <p>
-          Recurring stakeholder requests were clogging the analytics queue. I built a BigQuery-backed AI agent that combines an LLM with the team's dashboard queries and domain knowledge, so stakeholders can ask pricing, inventory, and loyalty questions in natural language instead of routing through an analyst.
+          Pricing answers lived across 12 separate dashboards. Merchants had to know which one to open and what filter to apply, and the analytics team became the bottleneck for anything cross-cutting. I built a Gemini-powered agent over BigQuery, grounded in the team's dashboard SQL and metric definitions, so the answer comes back in the same language the dashboards use.
+        </p>
+        <p>
+          One plain-English interface replaces 12 dashboard hunts. Merchants self-serve; the analytics team focuses on the cross-cutting work that actually needed a human.
         </p>
         <div class="impact">
           <span class="dot"></span>
           <span class="label">Impact</span>
-          <span class="value">Cut turnaround on recurring requests · Freed the team for higher-value analysis</span>
+          <span class="value">12 dashboards into one Q&amp;A interface · Merchant self-serve · Grounded in team SQL + metric definitions</span>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="project-tag">Data Quality · Tooling · VBA</div>
+        <h4>Dev-vs-Production Dashboard QC Tool</h4>
+        <p>
+          Validating a dashboard release used to mean an analyst manually diffing dev vs production for hours. I built an Excel + VBA tool that takes the chore off the queue: paste both datasets into one sheet sharing only the first column as a key, and the macro auto-detects matching schema across the rest of the columns, computes overall match rate, and flags every cell-level divergence.
+        </p>
+        <p>
+          Zero configuration from the user. Anchoring on a single shared column and letting the macro do the rest is what made it actually get used by the team.
+        </p>
+        <div class="impact">
+          <span class="dot"></span>
+          <span class="label">Impact</span>
+          <span class="value">Release QC became self-serve · Auto-discovers matching schema · Cell-level diff output</span>
         </div>
       </div>
 
@@ -955,6 +975,9 @@
         <span class="tag">Azure Data Factory</span>
         <span class="tag">Azure Computer Vision</span>
         <span class="tag">Databricks</span>
+        <span class="tag">Gemini</span>
+        <span class="tag">OpenAI API</span>
+        <span class="tag">Excel / VBA</span>
       </div>
     </div>
 
