@@ -738,22 +738,57 @@
   }
   .twin-widget-head .close {
     margin-left: auto;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
     background: transparent;
-    border: none;
-    color: var(--muted);
+    border: 1px solid var(--line-strong);
+    color: var(--text);
     cursor: pointer;
-    padding: 6px;
+    padding: 0;
     border-radius: 8px;
-    display: flex;
-    transition: color 0.2s, background 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s, background 0.2s, border-color 0.2s;
   }
-  .twin-widget-head .close:hover { color: var(--accent); background: var(--accent-dim); }
-  .twin-widget-body { flex: 1; min-height: 0; overflow: hidden; position: relative; }
+  .twin-widget-head .close svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+    stroke: currentColor;
+    stroke-width: 2.4;
+  }
+  .twin-widget-head .close:hover {
+    color: var(--bg);
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .twin-widget-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
   .twin-widget-body gradio-app {
     display: block;
+    flex: 1 1 auto;
     width: 100%;
     height: 100%;
+    min-height: 0;
     background: transparent;
+  }
+  /* gradio.js mounts the Space in an iframe — force it to fill the panel */
+  .twin-widget-body gradio-app iframe,
+  .twin-widget-body iframe {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    border: 0 !important;
+    background: transparent !important;
   }
   .twin-widget-body .twin-loading {
     position: absolute; inset: 0;
@@ -761,6 +796,14 @@
     color: var(--muted);
     font-family: 'JetBrains Mono', monospace;
     font-size: 13px;
+    background: var(--surface);
+    z-index: 1;
+    transition: opacity 0.2s ease;
+  }
+  .twin-widget-body .twin-loading.done {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
   }
   @media (max-width: 500px) {
     .twin-launcher .twin-launcher-label { display: none; }
@@ -1226,14 +1269,42 @@
     const widget = document.getElementById('twinWidget');
     const closeBtn = document.getElementById('twinClose');
     const body = document.getElementById('twinBody');
+    const loading = body.querySelector('.twin-loading');
     let mounted = false;
+
+    const hideLoading = () => {
+      if (loading) loading.classList.add('done');
+    };
+
     // Lazy-mount the Gradio app on first open so the Space isn't loaded until needed.
     const mount = () => {
       if (mounted) return;
       mounted = true;
       const app = document.createElement('gradio-app');
       app.setAttribute('src', 'https://suneetabraham-twin.hf.space');
+      app.style.width = '100%';
+      app.style.height = '100%';
+      app.style.display = 'block';
+      // Gradio fires these when the Space is ready; also fall back on a timeout.
+      app.addEventListener('render', hideLoading);
+      app.addEventListener('loaded', hideLoading);
       body.appendChild(app);
+      // If the custom element wraps an iframe later, size that too.
+      const syncFrame = () => {
+        const frame = app.querySelector('iframe') || body.querySelector('iframe');
+        if (frame) {
+          frame.style.width = '100%';
+          frame.style.height = '100%';
+          frame.style.border = '0';
+          frame.style.display = 'block';
+          frame.addEventListener('load', hideLoading, { once: true });
+          hideLoading();
+        }
+      };
+      setTimeout(syncFrame, 300);
+      setTimeout(syncFrame, 1200);
+      setTimeout(hideLoading, 4000);
+      new MutationObserver(syncFrame).observe(app, { childList: true, subtree: true });
     };
     const open = () => { mount(); widget.classList.add('open'); launcher.classList.add('hide'); };
     const close = () => { widget.classList.remove('open'); launcher.classList.remove('hide'); };
