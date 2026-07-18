@@ -304,7 +304,7 @@
   /* Stats strip */
   .stats {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 0;
     padding: 40px 0;
     border-top: 1px solid var(--line);
@@ -336,6 +336,15 @@
     color: var(--muted);
     text-transform: uppercase;
     letter-spacing: 0.08em;
+  }
+  .stat .ctx {
+    margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    opacity: 0.85;
   }
 
   /* Sections */
@@ -845,14 +854,22 @@
       <div class="stat">
         <div class="num">37%</div>
         <div class="label">Revenue lift at BENlabs</div>
+        <div class="ctx">Pricing</div>
       </div>
       <div class="stat">
         <div class="num">7M+</div>
-        <div class="label">Publix customers measured</div>
+        <div class="label">Customers measured for loyalty</div>
+        <div class="ctx">Causal</div>
       </div>
       <div class="stat">
         <div class="num">$60M+</div>
-        <div class="label">Ad spend modeled</div>
+        <div class="label">Annual ad spend modeled</div>
+        <div class="ctx">Retail media</div>
+      </div>
+      <div class="stat">
+        <div class="num">7</div>
+        <div class="label">Markets live on pricing model</div>
+        <div class="ctx">Pricing</div>
       </div>
     </div>
   </section>
