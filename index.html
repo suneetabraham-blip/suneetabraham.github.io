@@ -198,6 +198,28 @@
     color: var(--accent);
     font-weight: 500;
   }
+  /* Highlighted "Ask AI" nav item — primary CTA pill */
+  header.top .nav-links a.ai-link {
+    color: var(--bg);
+    background: var(--accent);
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 999px;
+    box-shadow: 0 0 0 1px var(--accent), 0 4px 18px var(--glow);
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    animation: aiPulse 2.6s ease-in-out infinite;
+  }
+  header.top .nav-links a.ai-link .num { color: var(--bg); }
+  header.top .nav-links a.ai-link:hover {
+    color: var(--bg);
+    background: #7dffe4;
+    transform: translateY(-1px);
+    box-shadow: 0 0 0 1px #7dffe4, 0 6px 22px var(--glow);
+  }
+  @keyframes aiPulse {
+    0%, 100% { box-shadow: 0 0 0 1px var(--accent), 0 4px 14px rgba(100, 255, 218, 0.25); }
+    50% { box-shadow: 0 0 0 1px var(--accent), 0 4px 22px rgba(100, 255, 218, 0.6); }
+  }
   header.top .resume-btn {
     padding: 8px 16px;
     border: 1px solid var(--accent);
@@ -742,7 +764,7 @@
     <a href="#work"><span class="num">02.</span> Work</a>
     <a href="#projects"><span class="num">03.</span> Projects</a>
     <a href="#skills"><span class="num">04.</span> Skills</a>
-    <a href="#chat"><span class="num">05.</span> Ask AI</a>
+    <a href="#chat" class="ai-link"><span class="num">05.</span> Ask AI</a>
   </nav>
   <a href="#contact" class="resume-btn">Get in touch</a>
 </header>
