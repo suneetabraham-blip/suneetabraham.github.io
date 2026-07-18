@@ -198,28 +198,6 @@
     color: var(--accent);
     font-weight: 500;
   }
-  /* Highlighted "Ask AI" nav item — primary CTA pill */
-  header.top .nav-links a.ai-link {
-    color: var(--bg);
-    background: var(--accent);
-    font-weight: 600;
-    padding: 5px 14px;
-    border-radius: 999px;
-    box-shadow: 0 0 0 1px var(--accent), 0 4px 18px var(--glow);
-    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-    animation: aiPulse 2.6s ease-in-out infinite;
-  }
-  header.top .nav-links a.ai-link .num { color: var(--bg); }
-  header.top .nav-links a.ai-link:hover {
-    color: var(--bg);
-    background: #7dffe4;
-    transform: translateY(-1px);
-    box-shadow: 0 0 0 1px #7dffe4, 0 6px 22px var(--glow);
-  }
-  @keyframes aiPulse {
-    0%, 100% { box-shadow: 0 0 0 1px var(--accent), 0 4px 14px rgba(100, 255, 218, 0.25); }
-    50% { box-shadow: 0 0 0 1px var(--accent), 0 4px 22px rgba(100, 255, 218, 0.6); }
-  }
   header.top .resume-btn {
     padding: 8px 16px;
     border: 1px solid var(--accent);
@@ -326,7 +304,7 @@
   /* Stats strip */
   .stats {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 0;
     padding: 40px 0;
     border-top: 1px solid var(--line);
@@ -658,55 +636,128 @@
     color: var(--muted-2);
   }
 
-  /* Digital twin embed */
-  .twin-intro {
-    color: var(--muted);
-    font-size: 17px;
-    max-width: 680px;
-    margin-bottom: 28px;
+  /* ---------- Floating digital-twin chat widget ---------- */
+  .twin-launcher {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 90;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px 14px 16px;
+    border: none;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 30px var(--glow);
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s, opacity 0.2s, visibility 0.2s;
   }
-  .twin-frame {
+  .twin-launcher:hover {
+    background: #7dffe4;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 36px var(--glow);
+  }
+  .twin-launcher svg { width: 20px; height: 20px; display: block; }
+  .twin-launcher .twin-launcher-label { white-space: nowrap; }
+  .twin-launcher.hide { opacity: 0; visibility: hidden; transform: scale(0.9); }
+
+  .twin-widget {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 95;
+    width: 400px;
+    max-width: calc(100vw - 32px);
+    height: 620px;
+    max-height: calc(100vh - 48px);
+    display: flex;
+    flex-direction: column;
     background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 6px;
-    max-width: 760px;
-    margin: 0 auto;
+    border: 1px solid var(--line-strong);
+    border-radius: 16px;
     overflow: hidden;
-    position: relative;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(16px) scale(0.98);
+    transform-origin: bottom right;
+    transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
   }
-  .twin-frame::before {
+  .twin-widget.open { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+  .twin-widget::before {
     content: "";
     position: absolute;
     top: 0; left: 0;
-    width: 100%; height: 2px;
+    width: 100%; height: 3px;
     background: linear-gradient(90deg, var(--accent), var(--warm));
-    z-index: 1;
+    z-index: 2;
   }
-  .twin-frame:hover {
-    border-color: var(--line-strong);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  .twin-widget-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 16px 14px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(7, 9, 15, 0.4);
   }
-  .twin-frame gradio-app {
+  .twin-widget-head .avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .twin-widget-head .meta { display: flex; flex-direction: column; line-height: 1.3; }
+  .twin-widget-head .meta .name { color: var(--text); font-size: 14px; font-weight: 600; }
+  .twin-widget-head .meta .status {
+    color: var(--muted); font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .twin-widget-head .meta .status .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 8px var(--glow);
+  }
+  .twin-widget-head .close {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    display: flex;
+    transition: color 0.2s, background 0.2s;
+  }
+  .twin-widget-head .close:hover { color: var(--accent); background: var(--accent-dim); }
+  .twin-widget-body { flex: 1; min-height: 0; overflow: hidden; position: relative; }
+  .twin-widget-body gradio-app {
     display: block;
     width: 100%;
-    min-height: 540px;
-    border-radius: calc(var(--radius) - 4px);
-    overflow: hidden;
+    height: 100%;
     background: transparent;
   }
-  .twin-note {
-    margin-top: 16px;
+  .twin-widget-body .twin-loading {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted);
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: var(--muted-2);
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    line-height: 1.5;
+    font-size: 13px;
   }
-  .twin-note span { color: var(--accent); }
+  @media (max-width: 500px) {
+    .twin-launcher .twin-launcher-label { display: none; }
+    .twin-launcher { padding: 14px; right: 16px; bottom: 16px; }
+    .twin-widget { right: 12px; left: 12px; bottom: 12px; width: auto; height: 78vh; }
+  }
 
   /* Reveal animation */
   .reveal {
@@ -764,7 +815,6 @@
     <a href="#work"><span class="num">02.</span> Work</a>
     <a href="#projects"><span class="num">03.</span> Projects</a>
     <a href="#skills"><span class="num">04.</span> Skills</a>
-    <a href="#chat" class="ai-link"><span class="num">05.</span> Ask AI</a>
   </nav>
   <a href="#contact" class="resume-btn">Get in touch</a>
 </header>
@@ -774,7 +824,6 @@
   <a href="#work" data-sec="work">Work</a>
   <a href="#projects" data-sec="projects">Projects</a>
   <a href="#skills" data-sec="skills">Skills</a>
-  <a href="#chat" data-sec="chat">Ask AI</a>
   <a href="#contact" data-sec="contact">Contact</a>
 </nav>
 
@@ -804,10 +853,6 @@
       <div class="stat">
         <div class="num">$60M+</div>
         <div class="label">Ad spend modeled</div>
-      </div>
-      <div class="stat">
-        <div class="num">7</div>
-        <div class="label">Walmart markets shipped</div>
       </div>
     </div>
   </section>
@@ -1068,22 +1113,6 @@
     </div>
   </section>
 
-  <section id="chat" class="content reveal">
-    <div class="section-header">
-      <span class="section-num">05.</span>
-      <h3>Ask my digital twin</h3>
-    </div>
-    <p class="twin-intro">
-      Curious about my work but don't want to wait on an email? Ask my AI twin. It answers in my voice from my real project history: pricing, experimentation, causal measurement, and the stack behind it. For anything sensitive, it will point you back to me directly.
-    </p>
-    <div class="twin-frame">
-      <gradio-app src="https://suneetabraham-twin.hf.space"></gradio-app>
-    </div>
-    <div class="twin-note">
-      <span>▸</span> AI responses can be imperfect. For anything that matters, email me and we'll talk live.
-    </div>
-  </section>
-
   <section id="contact" class="content reveal">
     <div class="contact-card">
       <div class="kicker">let's talk</div>
@@ -1106,6 +1135,28 @@
 
 </main>
 
+<!-- Floating digital-twin chat widget -->
+<button class="twin-launcher" id="twinLauncher" aria-label="Chat with Abe's AI twin">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+  <span class="twin-launcher-label">Ask my AI twin</span>
+</button>
+
+<div class="twin-widget" id="twinWidget" role="dialog" aria-label="Chat with Abe's AI twin">
+  <div class="twin-widget-head">
+    <div class="avatar">SA</div>
+    <div class="meta">
+      <span class="name">Abe's AI twin</span>
+      <span class="status"><span class="dot"></span> Ask me about my work</span>
+    </div>
+    <button class="close" id="twinClose" aria-label="Close chat">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+  </div>
+  <div class="twin-widget-body" id="twinBody">
+    <div class="twin-loading">Loading…</div>
+  </div>
+</div>
+
 <script>
   // Scroll progress bar
   const progress = document.getElementById('scrollProgress');
@@ -1126,7 +1177,7 @@
 
   // Side nav active state
   const sideLinks = document.querySelectorAll('nav.side a');
-  const sections = ['about','work','projects','skills','chat','contact'].map(id => document.getElementById(id));
+  const sections = ['about','work','projects','skills','contact'].map(id => document.getElementById(id));
   const sideObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -1151,6 +1202,30 @@
       });
     });
   }
+
+  // Floating digital-twin chat widget
+  (function () {
+    const launcher = document.getElementById('twinLauncher');
+    const widget = document.getElementById('twinWidget');
+    const closeBtn = document.getElementById('twinClose');
+    const body = document.getElementById('twinBody');
+    let mounted = false;
+    // Lazy-mount the Gradio app on first open so the Space isn't loaded until needed.
+    const mount = () => {
+      if (mounted) return;
+      mounted = true;
+      const app = document.createElement('gradio-app');
+      app.setAttribute('src', 'https://suneetabraham-twin.hf.space');
+      body.appendChild(app);
+    };
+    const open = () => { mount(); widget.classList.add('open'); launcher.classList.add('hide'); };
+    const close = () => { widget.classList.remove('open'); launcher.classList.remove('hide'); };
+    launcher.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && widget.classList.contains('open')) close();
+    });
+  })();
 </script>
 
 </body>
